@@ -1,5 +1,5 @@
-import styles from "../../../../styles/BookList.module.css";
 import type { Metadata } from "next";
+import styles from "../../../../styles/BookList.module.css";
 
 const Url = "https://books-api.nomadcoders.workers.dev/list?name=";
 
@@ -16,23 +16,29 @@ interface Book {
 }
 
 
-export async function generateMetadata({ params }: { params: { category: string } }): Promise<Metadata> {
-  const category = decodeURIComponent(params.category);
+type PageProps = {
+  params: {
+    category: string;
+  };
+};
+
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   return {
-    title: category,
+    title: decodeURIComponent(params.category),
   };
 }
 
 
 async function getBookList(category: string) {
   const res = await fetch(`${Url}${category}`);
-  if (!res.ok) throw new Error("Failed to fetch book list");
+  if (!res.ok) throw new Error("Failed to fetch data");
   const json = await res.json();
   return json;
 }
 
 
-export default async function BookCategoryPage({ params }: { params: { category: string } }) {
+export default async function Page({ params }: PageProps) {
   const category = decodeURIComponent(params.category);
   const bookList = await getBookList(category);
   const books = bookList.results.books;
