@@ -15,18 +15,14 @@ interface Book {
   }[];
 }
 
-interface PageProps {
-  params: {
-    category: string;
-  };
-}
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { category: string } }): Promise<Metadata> {
   const category = decodeURIComponent(params.category);
   return {
     title: category,
   };
 }
+
 
 async function getBookList(category: string) {
   const res = await fetch(`${Url}${category}`);
@@ -35,7 +31,8 @@ async function getBookList(category: string) {
   return json;
 }
 
-export default async function BookCategoryPage({ params }: PageProps) {
+
+export default async function BookCategoryPage({ params }: { params: { category: string } }) {
   const category = decodeURIComponent(params.category);
   const bookList = await getBookList(category);
   const books = bookList.results.books;
