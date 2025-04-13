@@ -20,12 +20,12 @@ interface Props {
     };
 }
 
-export async function generateMetadata({ params }: Props) {
-    const category = decodeURIComponent(params.category);
+export async function generateMetadata(props: Props) {
+    const category = decodeURIComponent(props.params.category);
     return {
-        title: category,
+      title: category,
     };
-}
+  }
 
 async function getBookList(category: string) {
     const json = await fetch(`${Url}${category}`).then((Response) => Response.json());
