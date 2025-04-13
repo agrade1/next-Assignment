@@ -33,9 +33,7 @@
   width: 100%;
   height: auto;
   max-height: 300px;
-  object-fit: contain;
   margin-bottom: 16px;
-  border: 1px solid #eee;
 }
 
 .bookList .noImg {
