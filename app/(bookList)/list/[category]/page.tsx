@@ -23,9 +23,9 @@ type PageProps = {
 };
 
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params: { category } }: PageProps) {
   return {
-    title: decodeURIComponent(params.category),
+    title: decodeURIComponent(category),
   };
 }
 
@@ -38,8 +38,8 @@ async function getBookList(category: string) {
 }
 
 
-export default async function Page({ params }: PageProps) {
-  const category = decodeURIComponent(params.category);
+export default async function bookListPage({ params: { category } }: PageProps) {
+  //const category = decodeURIComponent(params.category);
   const bookList = await getBookList(category);
   const books = bookList.results.books;
 
@@ -64,7 +64,6 @@ export default async function Page({ params }: PageProps) {
                   key={link.name}
                   href={link.url}
                   target="_blank"
-                  rel="noopener noreferrer"
                   className={styles.link}
                 >
                   {link.name}

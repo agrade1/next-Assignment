@@ -1,6 +1,6 @@
 .container{
     margin-top: 80px;
-    padding: 60px 200px ;
+    padding: 60px 100px ;
 }
 
 .title{
@@ -45,10 +45,4 @@
 .categoryList li a{
     display: block;
     padding: 30px;
-}
-
-@media screen and (max-width: 1280) {
-    .container{
-        padding: 60px 100px ;
-    }
 }
