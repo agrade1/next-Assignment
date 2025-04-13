@@ -1,45 +1,23 @@
-import type { Metadata } from "next";
 import styles from "../../../../styles/BookList.module.css";
+import type { Metadata } from "next";
 
 const Url = "https://books-api.nomadcoders.workers.dev/list?name=";
 
-interface Book {
-  title: string;
-  author: string;
-  publisher: string;
-  book_image: string;
-  description: string;
-  buy_links: {
-    name: string;
-    url: string;
-  }[];
-}
-
-
-type PageProps = {
-  params: {
-    category: string;
-  };
-};
-
-
-export async function generateMetadata({ params: { category } }: PageProps) {
+export async function generateMetadata({ params }) {
+  const category = decodeURIComponent(params.category);
   return {
-    title: decodeURIComponent(category),
+    title: category,
   };
 }
-
 
 async function getBookList(category: string) {
   const res = await fetch(`${Url}${category}`);
   if (!res.ok) throw new Error("Failed to fetch data");
-  const json = await res.json();
-  return json;
+  return res.json();
 }
 
-
-export default async function bookListPage({ params: { category } }: PageProps) {
-  //const category = decodeURIComponent(params.category);
+export default async function Page({ params }) {
+  const category = decodeURIComponent(params.category);
   const bookList = await getBookList(category);
   const books = bookList.results.books;
 
@@ -47,7 +25,7 @@ export default async function bookListPage({ params: { category } }: PageProps) 
     <div>
       <h2 className={styles.title}>{category}</h2>
       <ul className={styles.bookList}>
-        {books.map((book: Book) => (
+        {books.map((book) => (
           <li key={book.title}>
             {book.book_image ? (
               <img src={book.book_image} alt={book.title} />
@@ -64,6 +42,7 @@ export default async function bookListPage({ params: { category } }: PageProps) 
                   key={link.name}
                   href={link.url}
                   target="_blank"
+                  rel="noopener noreferrer"
                   className={styles.link}
                 >
                   {link.name}
