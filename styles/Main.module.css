@@ -47,4 +47,8 @@
     padding: 30px;
 }
 
-  
+@media screen and (max-width: 1280) {
+    .container{
+        padding: 60px 100px ;
+    }
+}
